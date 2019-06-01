@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/lyraproj/pcore/yaml"
 
@@ -50,6 +51,7 @@ var (
 	logLevel string
 	merge    string
 	facts    string
+	fact     []string
 	dflt     string
 	typ      string
 	renderAs string
@@ -66,13 +68,13 @@ func main() {
 
 func newCommnand() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:     "lookup <key> [<key> ...]",
-		Short:   `Lookup - Perform lookups in Hiera data storage`,
-		Long:    "Lookup - Perform lookups in Hiera data storage.\n  Find more information at: https://github.com/lyraproj/hiera",
-		Version: fmt.Sprintf("%v", getVersion()),
-		PreRun:  initialize,
-		Run:     lookup,
-		Args:    cobra.MinimumNArgs(1)}
+		Use:   "lookup <key> [<key> ...]",
+		Short: `Lookup - Perform lookups in Hiera data storage`,
+		Long:  "Lookup - Perform lookups in Hiera data storage.\n  Find more information at: https://github.com/lyraproj/hiera",
+		//Version: fmt.Sprintf("%v", getVersion()),
+		PreRun: initialize,
+		Run:    lookup,
+		Args:   cobra.MinimumNArgs(1)}
 
 	flags := cmd.Flags()
 	flags.StringVar(&logLevel, `loglevel`, `error`, `error/warn/info/debug`)
@@ -81,6 +83,7 @@ func newCommnand() *cobra.Command {
 	flags.StringVar(&dflt, `default`, ``, `a value to return if Hiera can't find a value in data`)
 	flags.StringVar(&typ, `type`, `Any`, `assert that the value has the specified type`)
 	flags.StringVar(&renderAs, `render-as`, `yaml`, `s/json/yaml/binary: Specify the output format of the results; s means plain text`)
+	flags.StringArrayVar(&fact, `fact`, []string{}, `One or more facts for this lookup`)
 
 	cmd.SetHelpTemplate(helpTemplate)
 	return cmd
@@ -134,6 +137,13 @@ func lookup(cmd *cobra.Command, args []string) {
 				scope = data
 			} else {
 				panic(px.Error(hieraapi.YamlNotHash, issue.H{`path`: facts}))
+			}
+		}
+
+		if len(fact) > 0 {
+			for i, s := range fact {
+
+				fmt.Println(i, strings.Split(s, "="))
 			}
 		}
 

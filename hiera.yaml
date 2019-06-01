@@ -1,0 +1,12 @@
+---
+version: 5
+defaults:
+  datadir: .hiera/data
+  data_hash: yaml_data
+
+hierarchy:
+  - name: "Test data"
+    path: "test/%{facts.values.hostname}.yaml"
+
+  - name: "common"
+    path: "common.yaml"

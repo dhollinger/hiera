@@ -1,0 +1,26 @@
+clusters:
+  prod:
+    us:
+      central0: us-central-1-0
+      central1: us-central1-1
+      central2: us-central1-2
+      central3: us-central1-3
+      central4: us-central1-4
+      central5: us-central1-5
+      central6: us-central1-6
+      central7: us-central1-7
+      central8: us-central1-8
+      central9: us-central1-9
+      central10: us-central1-10
+      central11: us-central1-11
+      central12: us-central1-12
+      central13: us-central1-13
+    eu:
+      london: europe-west1-0
+      belgium: europe-west2-0
+    au:
+      sydney: australia-souteast1-0
+  dev:
+    us:
+      central0: dev-us-central-1-0
+
